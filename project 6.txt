@@ -1,0 +1,146 @@
+Deploy Ask for a date app on Docker Container (mini project)
+
+Step 1 →setup ec2 on aws
+Launch an Amazon EC2 instance: The first step is to create an Amazon EC2 instance on which you’ll install Nginx. Go to the EC2 console, select Launch Instance, and choose ubuntu . Once you’ve selected the AMI, follow the prompts to configure the instance details, such as instance type, storage, and security group.
+Configure security group: When configuring your security group, make sure that you allow inbound traffic on port 80, which is the default port used by HTTP.
+4. let’s connect to your ec2 via ssh using command “ssh -i “mykey.pem” ubuntu@ec2–54–197–62–157.compute-1.amazonaws.com”
+
+3. run the following commands
+
+a. sudo su
+
+b. apt update
+
+git installation
+c. apt install git
+
+clone the github repo by
+
+c. git clone https://github.com/Aakibgithuber/Ask-for-a-date-app.git
+
+Step 2 → setup nginx and docker to build image
+run the following commands to install nginx →
+
+a. sudo apt install nginx
+
+Start Nginx: After installation, start the Nginx service
+
+b. sudo systemctl start nginx
+
+You can also enable Nginx to start on boot
+
+c. sudo systemctl enable nginx
+
+Check Nginx Status →To verify that Nginx is running without any errors, you can use
+
+d. sudo systemctl status nginx
+
+
+Docker installation
+a. apt-get install docker.io
+b. usermod -aG docker $USER # Replace with your username e.g ‘ubuntu’
+c. newgrp docker
+d. sudo chmod 777 /var/run/docker.sock → #is used to grant full read, write, and execute permissions to all users for the Docker socket file, which allows unrestricted access to the Docker daemon and is a significant security risk.
+
+run the following commands to build and run docker container →
+
+docker build -t my-dating-app.
+
+b. below command maps the container port to your ec2 port
+
+docker run -d --name netflix -p 8081:80 my-dating-app:latest →
+
+c. go to your ec2 →security groups →open the port 8081 by adding rule custom tcp = 8081
+
+
+your aplication is running go to your ec2 copy public ip and browse http://your_public_ip:8081 and it’s open like this
+
+
+if you click on no it will run away
+
+If you click on yes it will redirect you to next page
+
+then choose a date
+
+See you on a Date
+This is a simple website if you wanna make it highly available then you could integrate grafana and prometheus for monitering and use EKS for high Availablity you could checkout the project
+
+Saving the selected date on server side
+To save the result on the developer’s side (i.e., on the server or a specific location accessible by the server), we would typically need a server-side component to handle the file writing. as we mentioned HTML and JavaScript, and assuming we have a server-side environment (like Node.js) available, we can use an AJAX request to send the data to the server, and the server can then save it to a file.
+
+If you want to save the result on the developer’s side (i.e., on the server or a specific location accessible by the server), you would typically need a server-side component to handle the file writing. Since you mentioned HTML and JavaScript, and assuming you have a server-side environment (like Node.js) available, we could use an AJAX request to send the data to the server, and the server can then save it to a file.
+
+Create a file named server.js:
+const express = require('express');
+const fs = require('fs');
+const bodyParser = require('body-parser');
+const cors = require('cors'); // Import the cors middleware
+const app = express();
+const port = 3000;
+app.use(cors()); // Enable CORS for all routes
+app.use(bodyParser.text()); // Middleware to parse text/plain request body
+// Handling POST requests to save dates
+app.post('/saveToFile', (req, res) => {
+  const selectedDate = req.body;
+  if (selectedDate) {
+    const userId = 'unique_user_identifier';
+    const filePath = `./user_data/${userId}_dates.txt`;
+    fs.appendFile(filePath, `${selectedDate}\n`, (err) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Internal server error');
+      } else {
+        console.log('Selected date saved to file!');
+        res.sendStatus(200);
+      }
+    });
+  } else {
+    res.status(400).send('Bad request'); // Bad request if no data received
+  }
+});
+// Handling GET requests to fetch saved dates
+app.get('/getSavedDates', (req, res) => {
+  const userId = 'unique_user_identifier';
+  const filePath = `./user_data/${userId}_dates.txt`;
+  fs.readFile(filePath, 'utf8', (err, data) => {
+    if (err) {
+      if (err.code === 'ENOENT') {
+        res.json({ dates: [] });
+      } else {
+        res.status(500).send('Internal server error');
+      }
+    } else {
+      const dates = data.trim().split('\n');
+      res.json({ dates });
+    }
+  });
+});
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+Now go to your terminal and run
+
+node server.js
+
+
+the output
+Error !!!!
+If your date is not saved on the server side this is due to a CORS (Cross-Origin Resource Sharing) issue. Browsers have security mechanisms in place to prevent web pages from making requests to a different domain than the one that served the web page. In this case, your finally.html page is being served from http://localhost:8081, and it's trying to make a request to http://localhost:3000/saveToFile
+
+Install the cors package and then run node server.js
+
+npm install cors
+node server.js
+
+
+now the selected date is saved inside in a file of folder user_data that is also mentioned in github repo
+
+
+Now if your crush click on the particular date you could access it on here →
+
+http://localhost:3000/getSavedDates
+
+
+and also on the server instance inside a user_data folder a file called date.txt is present which stored the dates
+

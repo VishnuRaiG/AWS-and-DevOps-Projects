@@ -1,0 +1,41 @@
+DevOps mini projects list is here
+
+1.Pipeline Automator: Create a CI/CD pipeline for a web application using Jenkins.
+
+2.DockerizeChatApp: Dockerize a simple chat application and create a Dockerfile.
+
+3.TerraformCloudProvision: Use Terraform to provision cloud infrastructure for a sample project.
+
+4.WebAppTestAutomation: Implement automated testing for a web application using Selenium.
+
+5.LogHubVisualizer: Set up centralized log management with the ELK stack.
+
+6.MonitorGuardian: Configure infrastructure monitoring and alerting using Prometheus and Grafana.
+
+7.ConfigMaster: Manage server configurations with Ansible.
+
+8.SecurityScannerCI: Integrate security scanning into your CI/CD pipeline.
+
+9.BlueGreenDeployer: Implement a blue-green deployment strategy for a sample application.
+
+10.KnowledgeBaseDocs: Create a knowledge base and documentation site with Sphinx.
+
+11.ChatOpsNotifier: Set up ChatOps notifications in Slack for your CI/CD pipeline.
+
+12.DBSchemaVersionControl: Manage database schema changes with Flyway.
+
+13.KubernetesDeployWizard: Deploy an application to Kubernetes.
+
+14.DisasterRecoveryPlanX: Develop a disaster recovery plan for your infrastructure.
+
+15.CostOptimizationPro: Implement cost optimization practices for cloud resources.
+
+16.ServerlessFunctionsApp: Build and deploy serverless functions on AWS Lambda.
+
+17.GitOpsMastery: Create a GitOps workflow using ArgoCD.
+
+18.ImmutableImageBuilder: Develop an immutable infrastructure pipeline with Packer.
+
+19.ContinuousSecurityGuard: Set up continuous security scanning and compliance checks.
+
+20.MicroservicesWorld: Deploy a microservices-based application with service discovery.
